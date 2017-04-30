@@ -1,0 +1,25 @@
+{
+  "name": "drawdna",
+  "version": "1.0.0",
+  "description": "draw a 2D structure based on input dbn and sequence",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dna",
+    "2D"
+  ],
+  "author": "richa aggarwal",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "cytoscape": "^3.0.0",
+    "jquery": "^3.2.1",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-webserver": "^0.9.1"
+  }
+}

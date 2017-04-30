@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>draw DNA 2D</title>
+
+<!---TODO : Inject using Gulp task------------------------------->
+<!--vendor css----->
+<link rel="stylesheet" type="text/css" href="vendorTemp/bootstrap/dist/css/bootstrap.css"></link>
+<!--endvendor------>
+
+<link rel="stylesheet" type="text/css" href="index.css"></link>
+<base href="./">
+</head>
+<body>
+  <div class="container">
+    <div class="pull-left">
+    <form>
+    <div class="form-group">
+      <label for="seq">Sequence:</label>
+      <input type="text" class="form-control" id="seq">
+    </div>
+    <div class="form-group">
+      <label for="dbn">Dot Bracket Notation:</label>
+      <input type="text" class="form-control" id="dbn">
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary" id="btnDisplay">Display</button>
+    </div>
+    </form>
+  </div>
+    <div width="640" height="480" style="position:absolute;width:100%;height:100%; top:50%;" id="cy"></div>
+</div>
+
+<!---TODO : Inject using Gulp task------------------------------->
+<!--vendor js----->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="http://cytoscape.github.io/cytoscape.js/api/cytoscape.js-latest/cytoscape.min.js"></script>
+
+<script type="text/javascript" src="vendorTemp/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="vendorTemp/underscore/underscore.js"></script>
+<!--endvendor------>
+<script src="source.js"></script>
+<script src="index.js"></script>
+</body>
+
+
+</html>
