@@ -19,7 +19,9 @@
     "underscore": "^1.8.3"
   },
   "devDependencies": {
+    "cytoscape": "^3.0.0",
     "gulp": "^3.9.1",
-    "gulp-webserver": "^0.9.1"
+    "gulp-webserver": "^0.9.1",
+    "systemjs": "^0.20.12"
   }
 }

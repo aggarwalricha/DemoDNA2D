@@ -1,8 +1,8 @@
 //DRAW DNA 2D secondory structure library code
-var drawDNA = function(config){
+var drawDNA = function(config, cy){
   var inpDnaObj = new dnaStruct();
-  var nodes = [],  links =[], arrOpenParanthsIndexs =[], arrCloseParanthsIndexs =[];
-  var graphElements =[];
+  var cyElem = cy;
+  var nodes = [],  links =[], arrOpenParanthsIndexs =[], arrCloseParanthsIndexs =[], graphElements =[];
 
   prepareNodesArray = function(){
     for(var charIndex =0; charIndex < inpDnaObj.sequence.length; charIndex++){
@@ -94,17 +94,16 @@ var drawDNA = function(config){
   };
 
   createGraph = function(){
-
     var cy = cytoscape({
-      container: document.getElementById('cy'),
+      container: cyElem,
       elements: graphElements,
-      Style: [
+      style: [
       {
           selector: 'node',
           style: {
               'background-color': 'data(color)',
-              label: 'data(name)',
-              width: inpDnaObj.baseSize,
+               label: 'data(name)',
+               width: inpDnaObj.baseSize,
               'font-size': inpDnaObj.labelFont
           }
       },
@@ -116,6 +115,20 @@ var drawDNA = function(config){
           }
       }],
       layout: getGraphOptions()
+    });
+
+    attachEvents(cy);
+
+  };
+
+  attachEvents = function(cy){
+    cy.on('mouseover', 'node', function(event) {
+      if(typeof inpDnaObj.cbMouseOver == 'function')
+         inpDnaObj.cbMouseOver(event.target.id());
+    });
+
+    cy.on('click', 'edge', function(event){
+       event.target.remove();
     });
   };
 
@@ -141,9 +154,10 @@ var drawDNA = function(config){
       this.sequence = config.sequence;
       this.dbn = config.dbn;
       this.baseColor = new baseColor(config.baseTColor, config.baseAColor, config.baseCColor, config.baseGColor);
-      //this.baseSize = config.baseSize || '45';
-      //this.labelFont = config.labelFont || '18';
-      //this.edgeWidth = config.edgeWidth || '10';
+      this.cbMouseOver = config.cbMouseOver;
+      this.baseSize = config.baseSize || '45';
+      this.labelFont = config.labelFont || '18';
+      this.edgeWidth = config.edgeWidth || '6';
     }
     else{
     }
