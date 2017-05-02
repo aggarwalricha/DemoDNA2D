@@ -1,9 +1,9 @@
+'use-strict';
 /**
   @purpose Function constructor to draw DNA molecule structure using input config object and DOM placeholder.
   @param config: input configuration of a dna molecule structure
          cy: DOM placeholder for graph
 */
-'use-strict';
 var drawDNA = function(config, cy){
 
   // all private variables initialization
