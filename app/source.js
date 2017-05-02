@@ -135,7 +135,7 @@ var drawDNA = function(config, cy){
   /**
     @purpose Loop over nodes array and push a element correspondingly.
   */
-  pushNodesToGraphElements() = function{
+  pushNodesToGraphElements= function(){
     nodes.forEach(function(node, index){graphElements.push(
       {
         data:{name:node.name, color: node.color , id: node.id}
@@ -146,7 +146,7 @@ var drawDNA = function(config, cy){
   /**
     @purpose Loop over links array and push a element correspondingly.
   */
-  pushLinksToGraphElements() = function{
+  pushLinksToGraphElements = function(){
     links.forEach(function(link , index){graphElements.push(
      {
         data: {source: link.source , target:link.target, id: (link.source + link.target + index),
