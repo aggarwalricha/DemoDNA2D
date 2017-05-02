@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Draw DNA 2D</title>
+
+<!--css----->
+<link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css"></link>
+<link rel="stylesheet" type="text/css" href="app/index.css"></link>
+
+<script src="node_modules/systemjs/dist/system.js"></script>
+
+<!--TODO move it to import js , for now giving error : need to research---->
+<script src ="node_modules/cytoscape/dist/cytoscape.js"></script>
+<script src ="node_modules/cytoscape-cose-bilkent/cytoscape-cose-bilkent.js"></script>
+<script src ="node_modules/jquery/dist/jquery.js"></script>
+
+</head>
+<body>
+  <div class="container">
+    <form>
+    <div class="form-group">
+      <label for="seq">Sequence:</label>
+      <input type="text" class="form-control" id="seq">
+    </div>
+    <div class="form-group">
+      <label for="dbn">Dot Bracket Notation:</label>
+      <input type="text" class="form-control" id="dbn">
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary" id="btnDisplay">Display</button>
+    </div>
+      <label class="error" id="errMsg"></label>
+    </form>
+    <div width="640" height="480" class="dvCy" id="cy"></div>
+</div>
+<script>
+  System.import('./import.js');
+</script>
+</body>
+</html>
