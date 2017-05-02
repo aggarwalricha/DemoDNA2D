@@ -3,6 +3,7 @@
   @param config: input configuration of a dna molecule structure
          cy: DOM placeholder for graph
 */
+'use-strict';
 var drawDNA = function(config, cy){
 
   // all private variables initialization
