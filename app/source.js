@@ -97,7 +97,7 @@ var drawDNA = function(config, cy){
       arrCloseParanthsIndexs.forEach(function (closeParanthsIndex, idx){
         var target = _.max(_.filter(arrOpenParanthsIndexs, function(openParanthsIdx){
           return openParanthsIdx < closeParanthsIndex && !_.some(links, function(link){
-            return link.target == openParanthsIdx.toString();
+            return link.target == openParanthsIdx;
           })}
         ));
         links.push({source: closeParanthsIndex.toString(), target: target.toString(), edgeStyle: 'dotted', edgeCurve: 'haystack'});
