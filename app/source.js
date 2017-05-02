@@ -9,7 +9,6 @@ var drawDNA = function(config, cy){
       var base =inpDnaObj.sequence[charIndex];
       nodes.push({name:base, color:getBaseColor(base) , id: charIndex.toString() });
     }
-    //console.info("nodes",nodes);
   };
 
   prepareLinksArray = function(){
@@ -19,7 +18,7 @@ var drawDNA = function(config, cy){
 
   addLinksForDots = function(){
     for(var charIndex = 0; charIndex < inpDnaObj.dbn.length -1 ; charIndex++){
-      links.push({source: charIndex.toString(), target: (charIndex + 1).toString(), edgeStyle: 'solid'});
+      links.push({source: charIndex.toString(), target: (charIndex + 1).toString(), edgeStyle: 'solid', edgeCurve : 'segments'});
     }
   };
 
@@ -31,11 +30,8 @@ var drawDNA = function(config, cy){
           return link.target == openParanthsIdx.toString();
         })}
       ));
-      links.push({source: closeParanthsIndex.toString(), target: target.toString(), edgeStyle: 'dotted'});
-      //console.info(closeParanthsIndex.toString(),target.toString() );
+      links.push({source: closeParanthsIndex.toString(), target: target.toString(), edgeStyle: 'dotted', edgeCurve: 'haystack'});
     });
-
-    //console.info('parenthesis link ',links.length);
   };
 
   populatedIndexesOfOpenNCloseParnths = function(){
@@ -64,30 +60,30 @@ var drawDNA = function(config, cy){
     links.forEach(function(link , index){graphElements.push(
      {
         data: {source: link.source , target:link.target, id: (link.source + link.target + index),
-               edgeStyle: link.edgeStyle }
+               edgeStyle: link.edgeStyle, edgeCurve: link.edgeCurve }
      }
     )});
   };
 
   var getGraphOptions = function(){
     var options = {
-      name: 'cose',// Whether to fit the network view after when done
-      fit: true,// Padding on fit
+      name: 'cose-bilkent',
+      ready: function () {
+          cy.resize();
+      },
+      stop: function () {
+      },
+      fit: true,
       padding: 30,
-      boundingBox: undefined,
       randomize: true,
-      componentSpacing: 100,
-      nodeRepulsion: function( node ){ return 40000; },
-      nodeOverlap: 10,
-      idealEdgeLength: function( edge ){ return 10; },
-      edgeElasticity: function( edge ){ return 100; },
-      nestingFactor: 5,
-      gravity: -50,
-      numIter: 1000,
-      initialTemp: 200,
-      coolingFactor: 0.95,
-      minTemp: 1.0,
-      weaver: false
+      nodeRepulsion: 65000,
+      idealEdgeLength: 300,
+      edgeElasticity: 0.8,
+      nestingFactor: 0.1,
+      gravity: 0.4,
+      numIter: 2500,
+      tile: true,
+      animate: false
     };
 
     return options;
@@ -111,6 +107,8 @@ var drawDNA = function(config, cy){
           selector: 'edge',
           style: {
             'line-style': 'data(edgeStyle)',
+             'curve-style': 'data(edgeCurve)',
+             'segment-distances': '20 -20 20',
              width: inpDnaObj.edgeWidth
           }
       }],
@@ -118,22 +116,20 @@ var drawDNA = function(config, cy){
     });
 
     attachEvents(cy);
-
   };
 
   attachEvents = function(cy){
     cy.on('mouseover', 'node', function(event) {
       if(typeof inpDnaObj.cbMouseOver == 'function')
-         inpDnaObj.cbMouseOver(event.target.id());
+         inpDnaObj.cbMouseOver(parseInt(event.target.id()));
     });
 
     cy.on('click', 'edge', function(event){
-       event.target.remove();
+      var edgeData = event.target.element().data();
+      event.target.remove();
+      if(typeof inpDnaObj.cbEdgeRemoval == 'function')
+        inpDnaObj.cbEdgeRemoval({source: edgeData.source, target: edgeData.target});
     });
-  };
-
-  validateInputConfig = function(){
-    return true;
   };
 
   getBaseColor = function(base){
@@ -155,13 +151,13 @@ var drawDNA = function(config, cy){
       this.dbn = config.dbn;
       this.baseColor = new baseColor(config.baseTColor, config.baseAColor, config.baseCColor, config.baseGColor);
       this.cbMouseOver = config.cbMouseOver;
-      this.baseSize = config.baseSize || '45';
-      this.labelFont = config.labelFont || '18';
+      this.cbEdgeRemoval = config.cbEdgeRemoval;
+      this.baseSize = config.baseSize || '54';
+      this.labelFont = config.labelFont || '40';
       this.edgeWidth = config.edgeWidth || '6';
     }
     else{
     }
-    //console.info('this.baseColor', this.baseColor);
   }
 
   function baseColor(tColor, aColor, cColor , gColor){
@@ -172,11 +168,9 @@ var drawDNA = function(config, cy){
   }
 
   this.renderDNAStructure = function(){
-    if(validateInputConfig()){
-        inpDnaObj = new dnaStruct(config);
-        prepareGraphElements();
-        createGraph();
-    }
+    inpDnaObj = new dnaStruct(config);
+    prepareGraphElements();
+    createGraph();
   };
 
   return{

@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "cytoscape": "^3.0.0",
+    "cytoscape-cose-bilkent": "^1.6.5",
     "gulp": "^3.9.1",
     "gulp-webserver": "^0.9.1",
     "systemjs": "^0.20.12"
